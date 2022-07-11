@@ -1,5 +1,6 @@
 package com.poying.springbootecommerce.service.impl;
 
+import com.poying.springbootecommerce.constant.ProductCategory;
 import com.poying.springbootecommerce.dao.ProductDao;
 import com.poying.springbootecommerce.dto.ProductRequest;
 import com.poying.springbootecommerce.model.Product;
@@ -36,7 +37,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> getProducts() {
-        return productDao.getProducts();
+    public List<Product> getProducts(ProductCategory category, String searchKeyword) {
+        return productDao.getProducts(category, searchKeyword);
     }
 }

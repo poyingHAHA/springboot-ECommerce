@@ -1,5 +1,6 @@
 package com.poying.springbootecommerce.service;
 
+import com.poying.springbootecommerce.constant.ProductCategory;
 import com.poying.springbootecommerce.dto.ProductRequest;
 import com.poying.springbootecommerce.model.Product;
 
@@ -14,5 +15,5 @@ public interface ProductService {
 
     void deleteProductById(Integer productId);
 
-    List<Product> getProducts();
+    List<Product> getProducts(ProductCategory category, String searchKeyword);
 }

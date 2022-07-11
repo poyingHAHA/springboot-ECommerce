@@ -1,5 +1,6 @@
 package com.poying.springbootecommerce.controller;
 
+import com.poying.springbootecommerce.constant.ProductCategory;
 import com.poying.springbootecommerce.dto.ProductRequest;
 import com.poying.springbootecommerce.model.Product;
 import com.poying.springbootecommerce.service.ProductService;
@@ -19,8 +20,11 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(){
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category, // required=false表示category是可以選的
+            @RequestParam(required = false) String searchKeyword
+    ){
+        List<Product> productList = productService.getProducts(category, searchKeyword);
 
         // 不論有無數據都回200，根據Restful API的定義
         return ResponseEntity.status(HttpStatus.OK).body(productList);
