@@ -3,8 +3,27 @@ package com.poying.springbootecommerce.dto;
 import com.poying.springbootecommerce.constant.ProductCategory;
 
 public class ProductQueryParams {
-    ProductCategory category;
-    String searchKeyword;
+    private ProductCategory category;
+    private String searchKeyword;
+
+    public String getOrderBy() {
+        return orderBy;
+    }
+
+    public void setOrderBy(String orderBy) {
+        this.orderBy = orderBy;
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
+
+    private String orderBy;
+    private String sort;
 
     public ProductCategory getCategory() {
         return category;

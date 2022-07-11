@@ -22,12 +22,19 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getProducts(
+            // 查詢條件
             @RequestParam(required = false) ProductCategory category, // required=false表示category是可以選的
-            @RequestParam(required = false) String searchKeyword
+            @RequestParam(required = false) String searchKeyword,
+
+            // 排序 Sorting
+            @RequestParam(defaultValue = "created_date") String orderBy, //一般都會把新產品放前面
+            @RequestParam(defaultValue = "desc") String sort
     ){
         ProductQueryParams productQueryParams = new ProductQueryParams();
         productQueryParams.setCategory(category);
         productQueryParams.setSearchKeyword(searchKeyword);
+        productQueryParams.setOrderBy(orderBy);
+        productQueryParams.setSort(sort);
 
          List<Product> productList = productService.getProducts(productQueryParams); // 提高參數可讀性
         // List<Product> productList = productService.getProducts(category, searchKeyword);
