@@ -5,6 +5,7 @@ import com.poying.springbootecommerce.dto.ProductQueryParams;
 import com.poying.springbootecommerce.dto.ProductRequest;
 import com.poying.springbootecommerce.model.Product;
 import com.poying.springbootecommerce.service.ProductService;
+import com.poying.springbootecommerce.util.Page;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts(
+    public ResponseEntity<Page<Product>> getProducts(
             // 查詢條件
             @RequestParam(required = false) ProductCategory category, // required=false表示category是可以選的
             @RequestParam(required = false) String searchKeyword,
@@ -46,11 +47,22 @@ public class ProductController {
         productQueryParams.setLimit(limit);
         productQueryParams.setOffset(offset);
 
+        // 取得product list
          List<Product> productList = productService.getProducts(productQueryParams); // 提高參數可讀性
         // List<Product> productList = productService.getProducts(category, searchKeyword);
 
+        // 取得product總數
+        Integer total = productService.countProduct(productQueryParams);
+
+        // 分頁
+        Page<Product> page = new Page<>();
+        page.setLimit(limit);
+        page.setOffset(offset);
+        page.setTotal(total);
+        page.setResults(productList);
+
         // 不論有無數據都回200，根據Restful API的定義
-        return ResponseEntity.status(HttpStatus.OK).body(productList);
+        return ResponseEntity.status(HttpStatus.OK).body(page);
     }
 
     @GetMapping("/products/{productId}")
