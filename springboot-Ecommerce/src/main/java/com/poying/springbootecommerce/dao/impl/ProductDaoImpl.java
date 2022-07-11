@@ -48,6 +48,10 @@ public class ProductDaoImpl implements ProductDao {
         // 排序邏輯， ORDER BY只能用拼接的方式傳參，不能用:變數的方式
         sql = sql + " ORDER BY "+productQueryParams.getOrderBy() + " "+productQueryParams.getSort();
 
+        sql = sql + " LIMIT :limit OFFSET :offset ";
+        map.put("limit", productQueryParams.getLimit());
+        map.put("offset", productQueryParams.getOffset());
+
         List<Product> products = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
 
         return products;
