@@ -2,6 +2,7 @@ package com.poying.springbootecommerce.service.impl;
 
 import com.poying.springbootecommerce.constant.ProductCategory;
 import com.poying.springbootecommerce.dao.ProductDao;
+import com.poying.springbootecommerce.dto.ProductQueryParams;
 import com.poying.springbootecommerce.dto.ProductRequest;
 import com.poying.springbootecommerce.model.Product;
 import com.poying.springbootecommerce.service.ProductService;
@@ -15,6 +16,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
+        return productDao.getProducts(productQueryParams);
+    }
 
     @Override
     public Product getProductById(Integer productId) {
@@ -36,8 +42,4 @@ public class ProductServiceImpl implements ProductService {
         productDao.deleteProductById(productId);
     }
 
-    @Override
-    public List<Product> getProducts(ProductCategory category, String searchKeyword) {
-        return productDao.getProducts(category, searchKeyword);
-    }
 }

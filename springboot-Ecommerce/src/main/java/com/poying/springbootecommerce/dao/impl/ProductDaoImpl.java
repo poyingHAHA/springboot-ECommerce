@@ -2,6 +2,7 @@ package com.poying.springbootecommerce.dao.impl;
 
 import com.poying.springbootecommerce.constant.ProductCategory;
 import com.poying.springbootecommerce.dao.ProductDao;
+import com.poying.springbootecommerce.dto.ProductQueryParams;
 import com.poying.springbootecommerce.dto.ProductRequest;
 import com.poying.springbootecommerce.model.Product;
 import com.poying.springbootecommerce.rowmapper.ProductRowMapper;
@@ -26,22 +27,22 @@ public class ProductDaoImpl implements ProductDao {
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String searchKeyword) {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
 
         String sql = "SELECT product_id, product_name, category, image_url, price, stock, description, created_date, last_modified_date " +
                 "FROM product WHERE 1=1"; // 1=1是廢話，只是用來佔位用的，避免WHERE沒有條件式
 
         Map<String, Object> map = new HashMap<>();
 
-        if(category != null){
+        if(productQueryParams.getCategory() != null){
             sql = sql + " AND category = :category"; // AND前面要記得預留空白
-            map.put("category", category.name()); // category是Enum類型要轉成字符串
+            map.put("category", productQueryParams.getCategory().name()); // category是Enum類型要轉成字符串
         }
 
-        if(searchKeyword != null){
+        if(productQueryParams.getSearchKeyword() != null){
             sql = sql + " AND product_name LIKE :searchKeyword"; // LIKE模糊查詢，%表示任意字符
             // sql = sql + " AND product_name LIKE %:search%"; 這樣不行
-            map.put("searchKeyword", "%"+searchKeyword+"%");
+            map.put("searchKeyword", "%"+productQueryParams.getSearchKeyword()+"%");
         }
 
         List<Product> products = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
