@@ -3,6 +3,8 @@ package com.poying.springbootecommerce.dao;
 import com.poying.springbootecommerce.dto.ProductRequest;
 import com.poying.springbootecommerce.model.Product;
 
+import java.util.List;
+
 public interface ProductDao {
     Product getProductById(Integer productId);
 
@@ -11,4 +13,6 @@ public interface ProductDao {
     void updateProduct(Integer productId, ProductRequest productRequest);
 
     void deleteProductById(Integer productId);
+
+    List<Product> getProducts();
 }
