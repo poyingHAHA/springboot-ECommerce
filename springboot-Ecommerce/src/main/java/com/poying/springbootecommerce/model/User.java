@@ -1,10 +1,15 @@
 package com.poying.springbootecommerce.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Date;
 
 public class User {
     private Integer userId;
+    @JsonProperty("e_mail") //改變JSON中的KEY
     private String email;
+    @JsonIgnore
     private String password;
     private Date createdDate;
     private Date lastModifiedDate;
