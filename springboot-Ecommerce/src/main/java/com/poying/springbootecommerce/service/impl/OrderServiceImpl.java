@@ -4,6 +4,7 @@ import com.poying.springbootecommerce.dao.OrderDao;
 import com.poying.springbootecommerce.dao.ProductDao;
 import com.poying.springbootecommerce.dto.BuyItem;
 import com.poying.springbootecommerce.dto.CreateOrderRequest;
+import com.poying.springbootecommerce.model.Order;
 import com.poying.springbootecommerce.model.OrderItem;
 import com.poying.springbootecommerce.model.Product;
 import com.poying.springbootecommerce.service.OrderService;
@@ -50,5 +51,16 @@ public class OrderServiceImpl implements OrderService {
         orderDao.createOrderItems(orderId, orderItemList);
 
         return orderId;
+    }
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+
+        return order;
     }
 }
