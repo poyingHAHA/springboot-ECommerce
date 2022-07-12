@@ -1,6 +1,7 @@
 package com.poying.springbootecommerce.service.impl;
 
 import com.poying.springbootecommerce.dao.UserDao;
+import com.poying.springbootecommerce.dto.UserLoginRequest;
 import com.poying.springbootecommerce.dto.UserRegisterRequest;
 import com.poying.springbootecommerce.model.User;
 import com.poying.springbootecommerce.service.UserService;
@@ -37,4 +38,21 @@ public class UserServiceImpl implements UserService {
 
         return userDao.getUserById(userId);
     }
+
+    @Override
+    public User login(UserLoginRequest userLoginRequest) {
+        User user = userDao.getUserByEmail(userLoginRequest.getEmail());
+        if(user == null){
+            log.warn("該Email {} 尚未註冊", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if(user.getPassword().equals(userLoginRequest.getPassword())){
+            return user;
+        }else{
+            log.warn("email {} 密碼不正確", userLoginRequest.getEmail());
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "密碼不正確");
+        }
+    }
+
 }

@@ -1,8 +1,10 @@
 package com.poying.springbootecommerce.controller;
 
+import com.poying.springbootecommerce.dto.UserLoginRequest;
 import com.poying.springbootecommerce.dto.UserRegisterRequest;
 import com.poying.springbootecommerce.model.User;
 import com.poying.springbootecommerce.service.UserService;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,5 +28,12 @@ public class UserController {
         User user = userService.getUserById(userId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @PostMapping("/users/login")
+    public ResponseEntity<User> login(@RequestBody @Valid UserLoginRequest userLoginRequest){
+        User user = userService.login(userLoginRequest);
+
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 }
